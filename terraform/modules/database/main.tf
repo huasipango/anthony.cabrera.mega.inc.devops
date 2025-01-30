@@ -3,12 +3,15 @@ resource "google_sql_database_instance" "instance" {
   region           = var.region
   database_version = "POSTGRES_13"
 
+  depends_on = [var.network_id]
+
   settings {
     tier = "db-f1-micro"
 
     ip_configuration {
-      ipv4_enabled    = true
+      ipv4_enabled    = false
       private_network = var.network
+      require_ssl     = true
     }
 
     backup_configuration {
