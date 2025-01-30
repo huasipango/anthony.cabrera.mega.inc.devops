@@ -7,7 +7,6 @@ resource "google_sql_database_instance" "instance" {
 
   settings {
     tier = "db-f1-micro"
-    disk_size = 10
 
     ip_configuration {
       ipv4_enabled    = false
