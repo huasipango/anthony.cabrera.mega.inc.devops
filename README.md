@@ -73,3 +73,61 @@ curl -X 'POST' \
 }'
 
 ```
+# Respuesta de Anthony Cabrera
+
+
+### Componentes Principales
+
+1. **VPC y Networking**
+   - VPC dedicada (`challenge-vpc`)
+   - Subred principal (`challenge-subnet`)
+   - Rangos IP secundarios para pods y servicios de GKE
+   - Conexión VPC peering para servicios privados
+
+2. **GKE Cluster**
+   - Cluster zonal en `us-central1-a`
+   - Node pool con máquinas e2-medium
+   - Integración con la VPC para networking
+   - Cert Manager instalado vía Helm
+
+3. **Base de Datos (Cloud SQL)**
+   - PostgreSQL 15
+   - Conexión privada a través de VPC
+   - Configuración de alta disponibilidad zonal
+   - Backups automáticos habilitados
+
+4. **Redis Cache**
+   - Instancia básica de Redis
+   - Conexión privada mediante VPC
+   - Mantenimiento programado los domingos
+
+5. **Storage**
+   - Bucket de almacenamiento con acceso uniforme
+   - Ubicado en la misma región que los servicios
+
+### Seguridad y Conectividad
+
+- Todos los servicios están conectados a través de la VPC privada
+- Las conexiones entre servicios utilizan SSL/TLS
+- La base de datos y Redis son accesibles solo desde la VPC
+- Cert Manager gestiona certificados TLS automáticamente
+
+### Variables de Entorno
+
+La configuración sensible se maneja a través de variables de entorno:
+- Credenciales de base de datos
+- Configuraciones de conexión
+- Tokens y secretos
+
+Para inicializar el proyecto:
+1. Copiar `.env.example` a `.env`
+2. Configurar las variables necesarias
+3. Ejecutar `source .env` antes de aplicar Terraform
+
+
+### Consideraciones
+
+- La infraestructura está optimizada para un entorno de desarrollo/pruebas
+- Los recursos están configurados con especificaciones mínimas para optimizar costos
+- Se utiliza una zona única para reducir costos (en producción se recomienda multi-zona)
+- Cert Manager está configurado para gestionar certificados automáticamente
