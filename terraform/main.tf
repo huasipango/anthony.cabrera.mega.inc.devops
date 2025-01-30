@@ -1,12 +1,12 @@
 # VPC Network
 resource "google_compute_network" "vpc" {
-  name                    = "mg-inc-vpc"
+  name                    = "challenge-vpc"
   auto_create_subnetworks = false
 }
 
 # Subnet for GKE and Cloud SQL
 resource "google_compute_subnetwork" "subnet" {
-  name          = "mg-inc-subnet"
+  name          = "challenge-subnet"
   ip_cidr_range = "10.0.0.0/16"
   network       = google_compute_network.vpc.id
   region        = var.region
@@ -60,7 +60,7 @@ resource "google_storage_bucket" "storage" {
 
 # Private connection
 resource "google_compute_global_address" "private_ip_address" {
-  name          = "private-ip-address"
+  name          = "challenge-private-ip"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16

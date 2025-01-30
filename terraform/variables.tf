@@ -18,19 +18,19 @@ variable "zone" {
 variable "cluster_name" {
   description = "GKE Cluster Name"
   type        = string
-  default     = "mg-inc-cluster"
+  default     = "challenge-cluster"
 }
 
 variable "db_instance_name" {
   description = "Cloud SQL instance name"
   type        = string
-  default     = "mg-inc-postgres"
+  default     = "challenge-postgres"
 }
 
 variable "redis_instance_name" {
   description = "Redis instance name"
   type        = string
-  default     = "mg-inc-redis"
+  default     = "challenge-redis"
 }
 
 variable "db_username" {

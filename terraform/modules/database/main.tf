@@ -26,7 +26,7 @@ resource "google_sql_database_instance" "instance" {
 }
 
 resource "google_sql_database" "database" {
-  name     = "mg_inc_db"
+  name     = "challenge_db"
   instance = google_sql_database_instance.instance.name
 }
 
