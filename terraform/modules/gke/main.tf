@@ -1,6 +1,6 @@
 resource "google_container_cluster" "primary" {
   name     = var.cluster_name
-  location = var.region
+  location = "${var.region}-a"
 
   network    = var.network
   subnetwork = var.subnetwork
@@ -17,7 +17,7 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "primary_nodes" {
   name       = "${var.cluster_name}-node-pool"
-  location   = var.region
+  location   = "${var.region}-a"
   cluster    = google_container_cluster.primary.name
   node_count = 1
 
