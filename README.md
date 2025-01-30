@@ -185,5 +185,5 @@ docker-compose down
 
 ## CI/CD o Despliegue
 La imagen Docker se publica como:
-- gcr.io/micasino-devops-challenge/go-challenge-api:latest
-- gcr.io/micasino-devops-challenge/go-challenge-api:{commit-sha}
+- us-central1-docker.pkg.dev/micasino-devops-challenge/go-challenge-repo/go-challenge-api:latest
+- us-central1-docker.pkg.dev/micasino-devops-challenge/go-challenge-repo/go-challenge-api:{commit-sha}
