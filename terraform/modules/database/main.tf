@@ -1,7 +1,7 @@
 resource "google_sql_database_instance" "instance" {
   name             = var.instance_name
   region           = var.region
-  database_version = "POSTGRES_13"
+  database_version = "POSTGRES_15"
 
   depends_on = [var.vpc_connection]
 
