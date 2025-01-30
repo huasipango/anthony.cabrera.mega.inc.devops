@@ -182,3 +182,8 @@ docker-compose logs -f app
 ```bash
 docker-compose down
 ```
+
+## CI/CD o Despliegue
+La imagen Docker se publica como:
+- gcr.io/micasino-devops-challenge/go-challenge-api:latest
+- gcr.io/micasino-devops-challenge/go-challenge-api:{commit-sha}

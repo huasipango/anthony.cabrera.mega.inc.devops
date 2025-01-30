@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micasino-api
+spec:
+  replicas: 2  # Dos réplicas para alta disponibilidad
+  selector:
+    matchLabels:
+      app: micasino-api
+  template:
+    metadata:
+      labels:
+        app: micasino-api
+    spec:
+      containers:
+      - name: api
+        image: gcr.io/micasino-devops-challenge/go-challenge-api:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: host
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: dbname
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: port 
