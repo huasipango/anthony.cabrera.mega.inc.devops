@@ -11,4 +11,9 @@ variable "region" {
 variable "network" {
   description = "VPC network ID"
   type        = string
+}
+
+variable "vpc_connection" {
+  description = "VPC connection for dependency"
+  type        = any
 } 

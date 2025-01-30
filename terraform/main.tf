@@ -34,10 +34,11 @@ module "gke" {
 
 # Cloud SQL Instance
 module "database" {
-  source            = "./modules/database"
-  instance_name     = var.db_instance_name
-  region            = var.region
-  network           = google_compute_network.vpc.id
+  source         = "./modules/database"
+  instance_name  = var.db_instance_name
+  region         = var.region
+  network        = google_compute_network.vpc.id
+  vpc_connection = google_service_networking_connection.private_vpc_connection
 }
 
 # Redis Instance

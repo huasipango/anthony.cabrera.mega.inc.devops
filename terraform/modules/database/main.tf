@@ -3,7 +3,7 @@ resource "google_sql_database_instance" "instance" {
   region           = var.region
   database_version = "POSTGRES_13"
 
-  depends_on = [var.network_id]
+  depends_on = [var.vpc_connection]
 
   settings {
     tier = "db-f1-micro"
