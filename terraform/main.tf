@@ -39,6 +39,8 @@ module "database" {
   region         = var.region
   network        = google_compute_network.vpc.id
   vpc_connection = google_service_networking_connection.private_vpc_connection
+  db_username    = var.db_username
+  db_password    = var.db_password
 }
 
 # Redis Instance
