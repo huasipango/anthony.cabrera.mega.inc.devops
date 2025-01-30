@@ -16,4 +16,16 @@ variable "network" {
 variable "vpc_connection" {
   description = "VPC connection for dependency"
   type        = any
+}
+
+variable "db_username" {
+  description = "Database user name"
+  type        = string
+  sensitive   = true
+}
+
+variable "db_password" {
+  description = "Database user password"
+  type        = string
+  sensitive   = true
 } 

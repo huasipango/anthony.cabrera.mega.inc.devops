@@ -31,7 +31,7 @@ resource "google_sql_database" "database" {
 }
 
 resource "google_sql_user" "users" {
-  name     = "mg_inc_user"
+  name     = var.db_username
   instance = google_sql_database_instance.instance.name
-  password = "changeme123"  # En producción usar secret manager
+  password = var.db_password
 } 

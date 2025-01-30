@@ -31,4 +31,16 @@ variable "redis_instance_name" {
   description = "Redis instance name"
   type        = string
   default     = "mg-inc-redis"
+}
+
+variable "db_username" {
+  description = "Database user name"
+  type        = string
+  sensitive   = true
+}
+
+variable "db_password" {
+  description = "Database user password"
+  type        = string
+  sensitive   = true
 } 
