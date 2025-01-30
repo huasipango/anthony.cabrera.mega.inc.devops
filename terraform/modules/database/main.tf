@@ -19,7 +19,7 @@ resource "google_sql_database_instance" "instance" {
     }
 
     disk_size = 10
-    disk_type = "PD_SDD"
+    disk_type = "PD_SSD"
   }
 
   deletion_protection = false
