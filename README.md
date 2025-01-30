@@ -131,3 +131,54 @@ Para inicializar el proyecto:
 - Los recursos están configurados con especificaciones mínimas para optimizar costos
 - Se utiliza una zona única para reducir costos (en producción se recomienda multi-zona)
 - Cert Manager está configurado para gestionar certificados automáticamente
+
+## Ejecución Local del Proyecto
+
+### Prerrequisitos
+- Docker y Docker Compose instalados
+- Go 1.19 o superior (solo para desarrollo)
+- Make (opcional, para comandos simplificados)
+
+### Configuración Inicial
+
+1. **Clonar el repositorio**
+```bash
+git clone https://github.com/huasipango/micasino-devops-challenge.git
+cd micasino-devops-challenge
+```
+
+2. **Configurar variables de entorno**
+```bash
+# Copiar el archivo de ejemplo
+cp .env.example .env
+
+# Editar .env con tus configuraciones
+# Por defecto usa estos valores para desarrollo local:
+DB_HOST="db"
+DB_NAME="devops"
+DB_USER="postgres"
+DB_PORT="5432"
+DB_PASSWORD="postgres"
+```
+
+### Ejecución con Docker Compose
+
+1. **Construir y levantar los servicios**
+```bash
+docker-compose up --build
+```
+
+2. **Verificar que los servicios estén corriendo**
+```bash
+docker-compose ps
+```
+
+3. **Ver logs de la aplicación**
+```bash
+docker-compose logs -f app
+```
+
+4. **Detener los servicios**
+```bash
+docker-compose down
+```
