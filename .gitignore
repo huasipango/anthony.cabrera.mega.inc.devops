@@ -1,3 +1,15 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+terraform.tfvars
+
+# IDE
+.idea/
+.vscode/
+
+# OS
 .DS_Store
 *.[56789ao]
 *.a[56789o]
@@ -49,3 +61,6 @@ _testmain.go
 # use alternative ways to exclude files from git.
 # For example, set up .git/info/exclude or use a global .gitignore.
 /build/bin
+
+# PDF
+micasino-prueba-tecnica-devops.pdf
