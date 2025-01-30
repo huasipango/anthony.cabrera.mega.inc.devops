@@ -14,9 +14,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # Aquí inyectamos las variables definidas en .env
     env_file:
       - .env
+    volumes:
+      - ./.env:/app/.env  # Se ha tenido que montar el archivo .env en el contenedor para que funcione
     ports:
       - "3000:3000"
     depends_on:
