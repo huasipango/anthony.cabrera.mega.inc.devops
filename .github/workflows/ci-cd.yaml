@@ -25,6 +25,8 @@ env:
   GKE_ZONE: ${{ vars.GKE_ZONE }}
   IMAGE: ${{ vars.IMAGE }}
   REGION: ${{ vars.REGION }}
+  DEV_REGISTRY: go-challenge-repo-dev
+  PROD_REGISTRY: go-challenge-repo
 
 jobs:
   test:
@@ -65,8 +67,8 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/go-challenge-repo/${{ env.IMAGE }}:${{ github.sha }}
-            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/go-challenge-repo/${{ env.IMAGE }}:latest
+            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ github.ref != 'refs/heads/main' && env.DEV_REGISTRY || env.PROD_REGISTRY }}/${{ env.IMAGE }}:${{ github.sha }}
+            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ github.ref != 'refs/heads/main' && env.DEV_REGISTRY || env.PROD_REGISTRY }}/${{ env.IMAGE }}:latest
 
   deploy-dev:
     needs: build
@@ -103,11 +105,9 @@ jobs:
 
       - name: Deploy to Dev
         run: |
-          kubectl apply -f .k8s/deployment.yaml
-          kubectl apply -f .k8s/service.yaml
-
-          # Actualizamos la imagen al tag correspondiente
-          kubectl set image deployment/micasino-api api=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/go-challenge-repo/${{ env.IMAGE }}:${{ github.sha }}
+          kubectl apply -f .k8s/dev/deployment.yaml
+          kubectl apply -f .k8s/dev/service.yaml
+          kubectl set image deployment/micasino-api-dev api=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DEV_REGISTRY }}/${{ env.IMAGE }}:${{ github.sha }}
 
   deploy-prod:
     needs: build
@@ -142,9 +142,9 @@ jobs:
           EOF
       - name: Deploy to Prod
         run: |
-          kubectl apply -f .k8s/deployment.yaml
-          kubectl apply -f .k8s/service.yaml
-          kubectl set image deployment/micasino-api api=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/go-challenge-repo/${{ env.IMAGE }}:${{ github.sha }}
+          kubectl apply -f .k8s/prod/deployment.yaml
+          kubectl apply -f .k8s/prod/service.yaml
+          kubectl set image deployment/micasino-api api=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.PROD_REGISTRY }}/${{ env.IMAGE }}:${{ github.sha }}
       - name: Create Release
         if: success()
         uses: actions/create-release@v1
