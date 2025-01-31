@@ -21,43 +21,10 @@ spec:
           - name: env-file
             mountPath: /app/.env
             subPath: .env
-
-      - name: cloud-sql-proxy
-        image: us-central1-docker.pkg.dev/cloud-sql-connectors/cloud-sql-proxy:2.1.0
-        args:
-          # Escucha en 0.0.0.0 para exponer el puerto 5432 en el contenedor sidecar
-          - "--address=0.0.0.0"
-          - "--port=5432"
-
-          # Reemplaza con tu INSTANCE_CONNECTION_NAME
-          - "micasino-devops-challenge:us-central1:challenge-postgres"
-
-          # Ruta a las credenciales del Service Account
-          - "--credentials-file=/secrets/service-account.json"
-
-        # Exponemos el puerto 5432 en el sidecar (internamente en el pod)
-        ports:
-          - containerPort: 5432
-
-        volumeMounts:
-          # Montamos las credenciales del Service Account
-          - name: service-account
-            mountPath: /secrets
-            readOnly: true
-
       volumes:
-      # 1) Secret con el .env
-      - name: env-file
-        secret:
-          secretName: api-env-secret
-          items:
-            - key: .env
-              path: .env
-
-      # 2) Secret con la key (credentials.json) del Service Account
-      - name: service-account
-        secret:
-          secretName: cloudsql-instance-credentials
-          items:
-            - key: credentials.json
-              path: service-account.json
+        - name: env-file
+          secret:
+            secretName: api-env-secret
+            items:
+              - key: .env
+                path: .env

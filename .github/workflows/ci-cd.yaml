@@ -76,7 +76,6 @@ jobs:
           location: ${{ env.GKE_ZONE }}
           credentials: ${{ secrets.GCP_SA_KEY }}
 
-      # Creamos un SECRET con el archivo .env, unificando TODAS las variables
       - name: Create K8s .env Secret (Dev)
         run: |
           cat <<EOF | kubectl apply -f -
@@ -87,7 +86,7 @@ jobs:
           type: Opaque
           stringData:
             .env: |
-              DB_HOST=127.0.0.1
+              DB_HOST=${{ secrets.DB_HOST }}
               DB_USER=${{ secrets.DB_USERNAME }}
               DB_PASSWORD=${{ secrets.DB_PASSWORD }}
               DB_NAME=${{ secrets.DB_NAME }}
@@ -98,7 +97,6 @@ jobs:
 
       - name: Deploy to Dev
         run: |
-          # Aplicamos el Deployment y Service. (Si no usas ConfigMap, omite .k8s/configmap.yaml)
           kubectl apply -f .k8s/deployment.yaml
           kubectl apply -f .k8s/service.yaml
 
