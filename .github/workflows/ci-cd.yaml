@@ -79,6 +79,7 @@ jobs:
       # Creamos un SECRET con el archivo .env, unificando TODAS las variables
       - name: Create K8s .env Secret (Dev)
         run: |
+          kubectl delete secret api-env-secret --ignore-not-found
           cat <<EOF | kubectl apply -f -
           apiVersion: v1
           kind: Secret
@@ -120,6 +121,7 @@ jobs:
           credentials: ${{ secrets.GCP_SA_KEY }}
       - name: Create K8s .env Secret (Prod)
         run: |
+          kubectl delete secret api-env-secret --ignore-not-found
           cat <<EOF | kubectl apply -f -
           apiVersion: v1
           kind: Secret
