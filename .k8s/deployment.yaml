@@ -23,6 +23,17 @@ spec:
             mountPath: /app/.env
             subPath: .env
 
+      - name: cloud-sql-proxy
+        # Usando Artifact Registry en lugar de Container Registry
+        image: us-central1-docker.pkg.dev/cloud-sql-connectors/cloud-sql-proxy:2.1.0
+        args:
+          - "--credentials-file=/secrets/service-account.json"
+          - "${{ secrets.INSTANCE_CONNECTION_NAME }}"
+        volumeMounts:
+          - name: service-account
+            mountPath: /secrets/
+            readOnly: true
+
       volumes:
         - name: env-file
           secret:
@@ -30,3 +41,9 @@ spec:
             items:
               - key: .env
                 path: .env
+        - name: service-account
+          secret:
+            secretName: cloudsql-instance-credentials
+            items:
+              - key: credentials.json
+                path: service-account.json
