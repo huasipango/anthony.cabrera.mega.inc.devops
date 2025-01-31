@@ -119,5 +119,7 @@ jobs:
         
     - name: Deploy to Prod
       run: |
-        kubectl apply -f .k8s/
+        kubectl apply -f .k8s/configmap.yaml
+        kubectl apply -f .k8s/deployment.yaml
+        kubectl apply -f .k8s/service.yaml
         kubectl set image deployment/micasino-api api=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/go-challenge-repo/${{ env.IMAGE }}:${{ github.sha }} 
