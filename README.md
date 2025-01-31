@@ -219,26 +219,20 @@ La aplicación utiliza dos fuentes de configuración en Kubernetes:
 ### Infraestructura en GCP
 - **GKE (Google Kubernetes Engine)**
   - Cluster con nodos autogestionados
-  - 2 réplicas del API para alta disponibilidad
-  - Balanceador de carga expuesto en: `34.57.157.60`
-
-- **Cloud SQL**
-  - PostgreSQL 15
-  - Conexión privada vía VPC
-  - Sin SSL requerido para simplificar desarrollo
+  - 2 réplicas del API por ambiente
+  - Load Balancers independientes:
+    - PROD: `http://<prod-lb-ip>/api`
+    - DEV: `http://<dev-lb-ip>/api`
 
 ### Comunicación Interna
 ```mermaid
-graph LR
-    A[LoadBalancer] --> B[API Pod 1]
-    A --> C[API Pod 2]
-    B --> D[Cloud SQL]
-    C --> D
+graph TD
+    A[PROD Load Balancer] --> B[PROD API Pod 1]
+    A --> C[PROD API Pod 2]
+    D[DEV Load Balancer] --> E[DEV API Pod 1]
+    D --> F[DEV API Pod 2]
+    B & C & E & F --> G[Cloud SQL]
 ```
-
-- El tráfico externo ingresa por el Load Balancer
-- Se distribuye entre los pods del API
-- Los pods se conectan a Cloud SQL a través de una VPC privada
 
 ## CI/CD
 
