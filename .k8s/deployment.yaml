@@ -22,10 +22,6 @@ spec:
             mountPath: /app/.env
             subPath: .env
 
-          # Montamos el directorio de sockets compartido
-          - name: cloudsql-socket-dir
-            mountPath: /cloudsql
-
       - name: cloud-sql-proxy
         image: us-central1-docker.pkg.dev/cloud-sql-connectors/cloud-sql-proxy:2.1.0
         args:
