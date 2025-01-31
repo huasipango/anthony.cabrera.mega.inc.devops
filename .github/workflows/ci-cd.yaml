@@ -80,16 +80,7 @@ jobs:
       - name: Create K8s .env Secret (Dev)
         run: |
           kubectl create secret generic api-env-secret \
-            --from-literal=.env="$(cat <<EOF
-DB_HOST=${{ secrets.DB_HOST }}
-DB_USER=${{ secrets.DB_USERNAME }}
-DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-DB_NAME=${{ secrets.DB_NAME }}
-DB_PORT=${{ secrets.DB_PORT }}
-APP_ENV=development
-PORT=3000
-EOF
-)" \
+            --from-literal=.env="DB_HOST=${{ secrets.DB_HOST }}\nDB_USER=${{ secrets.DB_USERNAME }}\nDB_PASSWORD=${{ secrets.DB_PASSWORD }}\nDB_NAME=${{ secrets.DB_NAME }}\nDB_PORT=${{ secrets.DB_PORT }}\nAPP_ENV=development\nPORT=3000" \
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy to Dev
@@ -118,16 +109,7 @@ EOF
       - name: Create K8s .env Secret (Prod)
         run: |
           kubectl create secret generic api-env-secret \
-            --from-literal=.env="$(cat <<EOF
-DB_HOST=${{ secrets.DB_HOST }}
-DB_USER=${{ secrets.DB_USERNAME }}
-DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-DB_NAME=${{ secrets.DB_NAME }}
-DB_PORT=${{ secrets.DB_PORT }}
-APP_ENV=development
-PORT=3000
-EOF
-)" \
+            --from-literal=.env="DB_HOST=${{ secrets.DB_HOST }}\nDB_USER=${{ secrets.DB_USERNAME }}\nDB_PASSWORD=${{ secrets.DB_PASSWORD }}\nDB_NAME=${{ secrets.DB_NAME }}\nDB_PORT=${{ secrets.DB_PORT }}\nAPP_ENV=development\nPORT=3000" \
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy to Prod
