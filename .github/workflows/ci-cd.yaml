@@ -1,5 +1,11 @@
 name: CI/CD Pipeline
 
+# Agregar permisos necesarios
+permissions:
+  contents: write
+  packages: write
+  deployments: write
+
 on:
   push:
     branches: [ main, dev ]
@@ -151,5 +157,6 @@ jobs:
             Deployment to production successful
             - Commit: ${{ github.sha }}
             - Workflow: ${{ github.workflow }}
+            - Environment: Production
           draft: false
           prerelease: false

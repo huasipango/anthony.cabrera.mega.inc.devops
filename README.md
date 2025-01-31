@@ -258,7 +258,7 @@ graph LR
   - Manual trigger
 
 ## Endpoints
-- API Base URL: `http://34.57.157.60/api/`
+- API Base URL: `http://{LoadBalancer External IP}/api/`
 - Health Check: `GET /api/health`
 - [Otros endpoints...]
 
