@@ -42,4 +42,8 @@ spec:
           valueFrom:
             secretKeyRef:
               name: db-credentials
-              key: port 
+              key: port
+        - name: APP_ENV
+          value: "production"
+        - name: PORT
+          value: "3000" 

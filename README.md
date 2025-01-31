@@ -187,3 +187,15 @@ docker-compose down
 La imagen Docker se publica como:
 - us-central1-docker.pkg.dev/micasino-devops-challenge/go-challenge-repo/go-challenge-api:latest
 - us-central1-docker.pkg.dev/micasino-devops-challenge/go-challenge-repo/go-challenge-api:{commit-sha}
+
+## Variables de Entorno en Producción
+
+Las variables de entorno se configuran directamente en el Deployment de Kubernetes:
+
+- `DB_HOST`: Host de la base de datos
+- `DB_NAME`: Nombre de la base de datos
+- `DB_USER`: Usuario de la base de datos
+- `DB_PASSWORD`: Contraseña de la base de datos
+- `DB_PORT`: Puerto de la base de datos
+- `APP_ENV`: Entorno de la aplicación
+- `PORT`: Puerto de la aplicación
