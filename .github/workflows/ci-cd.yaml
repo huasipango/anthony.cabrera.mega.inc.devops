@@ -79,11 +79,9 @@ jobs:
     - name: Create K8s Secrets
       run: |
         kubectl create secret generic db-credentials \
-          --from-literal=host=${{ secrets.DB_HOST }} \
-          --from-literal=dbname=${{ secrets.DB_NAME }} \
-          --from-literal=username=${{ secrets.DB_USERNAME }} \
-          --from-literal=password=${{ secrets.DB_PASSWORD }} \
-          --from-literal=port=${{ secrets.DB_PORT }} \
+          --from-literal=host="${{ secrets.DB_HOST }}" \
+          --from-literal=username="${{ secrets.DB_USERNAME }}" \
+          --from-literal=password="${{ secrets.DB_PASSWORD }}" \
           --dry-run=client -o yaml | kubectl apply -f -
       
     - name: Deploy to Dev
@@ -110,11 +108,9 @@ jobs:
     - name: Create K8s Secrets
       run: |
         kubectl create secret generic db-credentials \
-          --from-literal=host=${{ secrets.DB_HOST }} \
-          --from-literal=dbname=${{ secrets.DB_NAME }} \
-          --from-literal=username=${{ secrets.DB_USERNAME }} \
-          --from-literal=password=${{ secrets.DB_PASSWORD }} \
-          --from-literal=port=${{ secrets.DB_PORT }} \
+          --from-literal=host="${{ secrets.DB_HOST }}" \
+          --from-literal=username="${{ secrets.DB_USERNAME }}" \
+          --from-literal=password="${{ secrets.DB_PASSWORD }}" \
           --dry-run=client -o yaml | kubectl apply -f -
         
     - name: Deploy to Prod
