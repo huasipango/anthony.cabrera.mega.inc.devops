@@ -139,3 +139,17 @@ jobs:
           kubectl apply -f .k8s/deployment.yaml
           kubectl apply -f .k8s/service.yaml
           kubectl set image deployment/micasino-api api=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/go-challenge-repo/${{ env.IMAGE }}:${{ github.sha }}
+      - name: Create Release
+        if: success()
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.${{ github.run_number }}
+          release_name: Release v1.${{ github.run_number }}
+          body: |
+            Deployment to production successful
+            - Commit: ${{ github.sha }}
+            - Workflow: ${{ github.workflow }}
+          draft: false
+          prerelease: false

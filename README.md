@@ -1,4 +1,4 @@
-# MiCasino Devops Challenge
+# MiCasino DevOps Challenge
 You can see the challenge requirements [here](docs/micasino-prueba-tecnica-devops.odt?raw=1) .
 
 ## Create .env file
@@ -213,3 +213,56 @@ La aplicación utiliza dos fuentes de configuración en Kubernetes:
    - Variables sensibles
    - Credenciales de base de datos
    - Inyectadas como variables de entorno
+
+## Arquitectura
+
+### Infraestructura en GCP
+- **GKE (Google Kubernetes Engine)**
+  - Cluster con nodos autogestionados
+  - 2 réplicas del API para alta disponibilidad
+  - Balanceador de carga expuesto en: `34.57.157.60`
+
+- **Cloud SQL**
+  - PostgreSQL 15
+  - Conexión privada vía VPC
+  - Sin SSL requerido para simplificar desarrollo
+
+### Comunicación Interna
+```mermaid
+graph LR
+    A[LoadBalancer] --> B[API Pod 1]
+    A --> C[API Pod 2]
+    B --> D[Cloud SQL]
+    C --> D
+```
+
+- El tráfico externo ingresa por el Load Balancer
+- Se distribuye entre los pods del API
+- Los pods se conectan a Cloud SQL a través de una VPC privada
+
+## CI/CD
+
+### Pipeline (GitHub Actions)
+1. **Test**: Ejecuta pruebas unitarias
+2. **Build**: Construye y publica imagen en Artifact Registry
+3. **Deploy**:
+   - DEV: Para rama `dev`
+   - PROD: Para rama `main`
+
+### Releases y Tags
+- Cada deploy exitoso genera un tag con formato `v1.x.x`
+- Las releases documentan cambios importantes
+- El workflow se activa con:
+  - Push a `main` o `dev`
+  - Pull Requests
+  - Manual trigger
+
+## Endpoints
+- API Base URL: `http://34.57.157.60/api/`
+- Health Check: `GET /api/health`
+- [Otros endpoints...]
+
+## Monitoreo
+- Logs disponibles en Cloud Logging
+- Métricas de Kubernetes en Cloud Monitoring
+- Estado de pods: `kubectl get pods`
