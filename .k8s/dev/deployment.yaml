@@ -24,7 +24,7 @@ spec:
       volumes:
         - name: env-file
           secret:
-            secretName: api-env-secret-dev
+            secretName: api-env-secret
             items:
               - key: .env
                 path: .env 

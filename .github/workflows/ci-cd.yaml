@@ -67,8 +67,8 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ github.ref != 'refs/heads/main' && env.DEV_REGISTRY || env.PROD_REGISTRY }}/${{ env.IMAGE }}:${{ github.sha }}
-            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ github.ref != 'refs/heads/main' && env.DEV_REGISTRY || env.PROD_REGISTRY }}/${{ env.IMAGE }}:latest
+            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ github.ref == 'refs/heads/main' && env.PROD_REGISTRY || env.DEV_REGISTRY }}/${{ env.IMAGE }}:${{ github.sha }}
+            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ github.ref == 'refs/heads/main' && env.PROD_REGISTRY || env.DEV_REGISTRY }}/${{ env.IMAGE }}:latest
 
   deploy-dev:
     needs: build
