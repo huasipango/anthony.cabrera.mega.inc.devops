@@ -199,3 +199,17 @@ Las variables de entorno se configuran directamente en el Deployment de Kubernet
 - `DB_PORT`: Puerto de la base de datos
 - `APP_ENV`: Entorno de la aplicación
 - `PORT`: Puerto de la aplicación
+
+## Configuración en Kubernetes
+
+La aplicación utiliza dos fuentes de configuración en Kubernetes:
+
+1. **ConfigMap** (`api-config`):
+   - Variables no sensibles
+   - Montado como archivo `.env` en el contenedor
+   - Incluye configuraciones como `APP_ENV`, `PORT`
+
+2. **Secrets** (`db-credentials`):
+   - Variables sensibles
+   - Credenciales de base de datos
+   - Inyectadas como variables de entorno
