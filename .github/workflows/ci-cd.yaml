@@ -87,25 +87,13 @@ jobs:
           type: Opaque
           stringData:
             .env: |
-              DB_HOST=127.0.0.1
+              DB_HOST=${{ secrets.DB_HOST }}
               DB_USER=${{ secrets.DB_USERNAME }}
               DB_PASSWORD=${{ secrets.DB_PASSWORD }}
               DB_NAME=${{ secrets.DB_NAME }}
               DB_PORT=${{ secrets.DB_PORT }}
               APP_ENV=development
               PORT=3000
-          EOF
-
-      - name: Create Cloud SQL credentials secret
-        run: |
-          cat <<EOF | kubectl apply -f -
-          apiVersion: v1
-          kind: Secret
-          metadata:
-            name: cloudsql-instance-credentials
-          type: Opaque
-          stringData:
-            credentials.json: '${{ secrets.GCP_SA_KEY }}'
           EOF
 
       - name: Deploy to Dev
@@ -139,25 +127,13 @@ jobs:
             name: api-env-secret
           type: Opaque
           stringData:
-            .env: |
-              DB_HOST=127.0.0.1
+              DB_HOST=${{ secrets.DB_HOST }}
               DB_USER=${{ secrets.DB_USERNAME }}
               DB_PASSWORD=${{ secrets.DB_PASSWORD }}
               DB_NAME=${{ secrets.DB_NAME }}
               DB_PORT=${{ secrets.DB_PORT }}
               APP_ENV=production
               PORT=3000
-          EOF
-      - name: Create Cloud SQL credentials secret
-        run: |
-          cat <<EOF | kubectl apply -f -
-          apiVersion: v1
-          kind: Secret
-          metadata:
-            name: cloudsql-instance-credentials
-          type: Opaque
-          stringData:
-            credentials.json: '${{ secrets.GCP_SA_KEY }}'
           EOF
       - name: Deploy to Prod
         run: |

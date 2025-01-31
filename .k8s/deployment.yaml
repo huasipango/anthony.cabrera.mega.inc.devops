@@ -17,36 +17,49 @@ spec:
         image: us-central1-docker.pkg.dev/micasino-devops-challenge/go-challenge-repo/go-challenge-api:latest
         ports:
           - containerPort: 3000
-        # Montas el .env en /app/.env
         volumeMounts:
           - name: env-file
             mountPath: /app/.env
             subPath: .env
 
+          # Montamos el directorio de sockets compartido
+          - name: cloudsql-socket-dir
+            mountPath: /cloudsql
+
       - name: cloud-sql-proxy
-        # Usando Artifact Registry en lugar de Container Registry
         image: us-central1-docker.pkg.dev/cloud-sql-connectors/cloud-sql-proxy:2.1.0
         args:
           - "--credentials-file=/secrets/service-account.json"
-          - "--port=5432"  # Especificar el puerto
-          - "${{ secrets.INSTANCE_CONNECTION_NAME }}"
-        ports:
-          - containerPort: 5432  # Exponer el puerto
+          - "--address=unix:/cloudsql"
+          - "micasino-devops-challenge:us-central1:challenge-postgres"
+
         volumeMounts:
           - name: service-account
             mountPath: /secrets/
             readOnly: true
 
+          # Montamos el directorio de sockets para que el proxy escriba el socket
+          - name: cloudsql-socket-dir
+            mountPath: /cloudsql
+
       volumes:
+        # Secret con archivo .env (si tu app lo requiere)
         - name: env-file
           secret:
-            secretName: api-env-secret  # El nombre del Secret que creaste
+            secretName: api-env-secret
             items:
               - key: .env
                 path: .env
+
+        # Secret con las credenciales del Service Account (JSON)
         - name: service-account
           secret:
             secretName: cloudsql-instance-credentials
             items:
               - key: credentials.json
                 path: service-account.json
+
+        # Directorio temporal en RAM para compartir el socket con el proxy
+        - name: cloudsql-socket-dir
+          emptyDir:
+            medium: "Memory"
